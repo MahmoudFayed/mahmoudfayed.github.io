@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mahmoud Samir Fayed — Programming Language Designer & Researcher</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f9fafe;
+            --bg-elevated: #f0f4ff;
+            --bg-card: linear-gradient(135deg, #c5b8f0 0%, #b0a0e8 50%, #9d8ce0 100%);
+            --bg-card-solid: #b8aae8;
+            --border: #b0a4d8;
+            --border-hover: #8e80c8;
+            --text-primary: #1a1228;
+            --text-secondary: #44407a;
+            --text-muted: #7070aa;
+            --accent: #6b3bdb;
+            --accent-glow: rgba(107, 59, 219, 0.12);
+            --accent-warm: #e8553d;
+            --accent-teal: #0ea583;
+            --accent-gold: #d4a022;
+            --serif: 'DM Serif Display', Georgia, serif;
+            --sans: 'Instrument Sans', system-ui, sans-serif;
+            --mono: 'JetBrains Mono', monospace;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--sans);
+            background: linear-gradient(160deg, #ffffff 0%, #f5f7fe 30%, #f0f3fc 60%, #f8f9ff 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ===== GRAIN OVERLAY ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* ===== NAVIGATION ===== */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.85);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .nav-logo {
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--accent);
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0;
+            width: 0; height: 1.5px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--text-primary); }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(107, 59, 219, 0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(107, 59, 219, 0.07) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 80%);
+        }
+
+        .hero-glow {
+            position: absolute;
+            top: -20%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(107, 59, 219, 0.12), transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-glow-2 {
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(140, 99, 255, 0.1), transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-tag {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            color: var(--accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.2s forwards;
+        }
+
+        .hero-name {
+            font-family: var(--serif);
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            line-height: 1.05;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.4s forwards;
+        }
+
+        .hero-name .accent { color: var(--accent); }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 620px;
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.6s forwards;
+        }
+
+        .hero-flex {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .hero-text {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .hero-photo {
+            flex-shrink: 0;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.8s forwards;
+        }
+
+        .hero-photo img {
+            width: 210px;
+            height: auto;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 4px solid #000000;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25), 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.8s forwards;
+        }
+
+        .stat {
+            text-align: left;
+        }
+
+        .stat-number {
+            font-family: var(--serif);
+            font-size: 2.2rem;
+            color: var(--text-primary);
+            line-height: 1.2;
+        }
+
+        .stat-label {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        /* ===== SECTIONS ===== */
+        section {
+            padding: 6rem 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            color: var(--accent);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title {
+            font-family: var(--serif);
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 1rem;
+            line-height: 1.15;
+        }
+
+        .section-desc {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 3rem;
+            font-size: 1.05rem;
+        }
+
+        /* ===== ABOUT ===== */
+        .about-section {
+            border-top: 1px solid var(--border);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .about-text p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.02rem;
+        }
+
+        .about-text strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .about-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .detail-card {
+            background: linear-gradient(135deg, #1a1a2e 0%, #232340 50%, #2a2a48 100%);
+            border: 1px solid #333355;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: border-color 0.3s ease, transform 0.3s ease;
+            color: #eeeef0;
+        }
+
+        .detail-card:hover {
+            border-color: #5555aa;
+            transform: translateY(-2px);
+        }
+
+        .detail-card .detail-card-label {
+            color: #8888bb;
+        }
+
+        .detail-card .detail-card-value {
+            color: #eeeef0;
+        }
+
+        .detail-card .detail-card-value a {
+            color: #a8a0ff;
+        }
+
+        .detail-card-label {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .detail-card-value {
+            font-size: 1.05rem;
+            color: var(--text-primary);
+        }
+
+        .detail-card-value a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .detail-card-value a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== TIMELINE ===== */
+        .timeline {
+            position: relative;
+            padding-left: 2.5rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, var(--accent), var(--border), transparent);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 3rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.5rem;
+            top: 6px;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        .timeline-year {
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+        }
+
+        .timeline-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* ===== PROJECTS ===== */
+        .projects-section {
+            border-top: 1px solid var(--border);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            background: linear-gradient(145deg, #1a1a2e 0%, #232340 50%, #2a2a48 100%);
+            border: 1px solid #333355;
+            border-radius: 16px;
+            padding: 2.2rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--card-accent, var(--accent));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .project-card:hover {
+            border-color: #5555aa;
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-card .project-card-title,
+        .project-card .project-link {
+            color: #eeeef0;
+        }
+
+        .project-card .project-card-desc {
+            color: #aaaacc;
+        }
+
+        .project-card:hover::before { opacity: 1; }
+
+        .project-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            font-family: var(--mono);
+            font-weight: 700;
+            color: white;
+        }
+
+        .project-card-title {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.2;
+        }
+
+        .project-card-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tag {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            padding: 0.3rem 0.75rem;
+            border-radius: 100px;
+            background: rgba(108, 99, 255, 0.2);
+            color: #a8a0ff;
+            letter-spacing: 0.3px;
+        }
+
+        .project-link {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .project-card:hover .project-link {
+            color: var(--accent);
+        }
+
+        .project-link svg {
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover .project-link svg {
+            transform: translateX(4px);
+        }
+
+        /* ===== RESEARCH ===== */
+        .research-section {
+            border-top: 1px solid var(--border);
+        }
+
+        .papers-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            background: #333355;
+            border: 1px solid #333355;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .paper-item {
+            background: linear-gradient(135deg, #1a1a2e 0%, #232340 100%);
+            padding: 1.75rem 2rem;
+            transition: background 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 2rem;
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        .paper-item:hover {
+            background: linear-gradient(135deg, #222244 0%, #2c2c50 100%);
+        }
+
+        .paper-item .paper-title {
+            color: #eeeef0;
+        }
+
+        .paper-item .paper-meta {
+            color: #8888bb;
+        }
+
+        .paper-item .paper-year {
+            color: #8888bb;
+        }
+
+        .paper-title {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.4rem;
+            line-height: 1.5;
+        }
+
+        .paper-meta {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        .paper-year {
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .scholar-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-top: 2rem;
+            padding: 0.9rem 1.8rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .scholar-link:hover {
+            border-color: var(--accent);
+            background: var(--accent-glow);
+        }
+
+        /* ===== CONNECT ===== */
+        .connect-section {
+            border-top: 1px solid var(--border);
+        }
+
+        .connect-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .connect-card {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            background: linear-gradient(135deg, #1a1a2e 0%, #232340 50%, #2a2a48 100%);
+            border: 1px solid #333355;
+            border-radius: 14px;
+            padding: 1.5rem 1.75rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .connect-card:hover {
+            border-color: #5555aa;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .connect-card .connect-card-title {
+            color: #eeeef0;
+        }
+
+        .connect-card .connect-card-sub {
+            color: #8888bb;
+        }
+
+        .connect-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .connect-card-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.15rem;
+        }
+
+        .connect-card-sub {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-text {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        .footer-quote {
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== MOBILE NAV ===== */
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: var(--text-primary);
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(20px);
+                padding: 1.5rem 2rem;
+                gap: 1rem;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .nav-links.open { display: flex; }
+
+            .nav-toggle { display: block; }
+
+            .hero { padding: 7rem 1.5rem 3rem; }
+            .hero-stats { gap: 2rem; }
+            section { padding: 4rem 1.5rem; }
+
+            .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .projects-grid { grid-template-columns: 1fr; }
+
+            .hero-flex { flex-direction: column; gap: 2rem; text-align: center; }
+            .hero-photo img { width: 160px; }
+
+            .footer-content { flex-direction: column; gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <div class="nav-logo">MSF</div>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#connect">Connect</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-glow-2"></div>
+    <div class="hero-content hero-flex">
+        <div class="hero-text">
+            <div class="hero-tag">Language Designer &middot; Researcher &middot; Open Source Contributor</div>
+            <h1 class="hero-name">Mahmoud Samir<br>Fayed</h1>
+            <p class="hero-subtitle">
+                Programming language designer. Creator of the Ring programming language, Programming Without Coding Technology (PWCT), and Supernova. Researcher specializing in visual programming, compilers, virtual machines, algorithms, and machine learning.
+            </p>
+        </div>
+        <div class="hero-photo">
+            <img src="mahmoud.png" alt="Mahmoud Samir Fayed">
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="about-section">
+    <div class="reveal">
+        <div class="section-label">About</div>
+        <div class="section-title">A journey in the programming world</div>
+    </div>
+    <div class="about-grid">
+        <div class="about-text reveal">
+            <p>
+                <strong>Mahmoud Samir Fayed</strong> (born December 29, 1986) is a computer programmer and researcher who began learning programming at the age of ten in 1997, under the supervision of his father. Starting with the Clipper language under MS-DOS, he went on to dedicate his career to making programming more accessible through innovative tools and languages.
+            </p>
+            <p>
+                In 2005, he began developing <strong>PWCT</strong> (Programming Without Coding Technology), a general-purpose visual programming language that enables application development through graphical interfaces. This was followed by <strong>Supernova</strong> in 2009 — a domain-specific language supporting both Arabic and English keywords — and the <strong>Ring programming language</strong> in 2013, a multi-paradigm language whose compiler and VM were built entirely using PWCT.
+            </p>
+            <p>
+                His research spans visual programming languages, compiler design, virtual machines, algorithms, and machine learning.
+            </p>
+        </div>
+        <div class="about-details reveal">
+            <div class="detail-card">
+                <div class="detail-card-label">Position</div>
+                <div class="detail-card-value">Researcher</div>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-card-label">Education</div>
+                <div class="detail-card-value">PhD in Computer Science, King Saud University (2025)<br>MSc in Information Science, King Saud University (2017)<br>BSc in Electronic Engineering, Menoufia University (2008)</div>
+            </div>
+            <div class="detail-card">
+                <div class="detail-card-label">Research Areas</div>
+                <div class="detail-card-value">Visual Programming &middot; Compilers &middot; Virtual Machines &middot; Algorithms &middot; Machine Learning</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CAREER TIMELINE -->
+<section>
+    <div class="reveal">
+        <div class="section-label">Timeline</div>
+        <div class="section-title">A journey through code</div>
+    </div>
+    <div class="timeline reveal">
+        <div class="timeline-item">
+            <div class="timeline-year">1997</div>
+            <div class="timeline-title">Started Programming</div>
+            <div class="timeline-desc">Began learning programming at age 10 using Clipper under MS-DOS, guided by his father who works as a programmer.</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-year">2005</div>
+            <div class="timeline-title">PWCT Development Begins</div>
+            <div class="timeline-desc">Started developing Programming Without Coding Technology — a general-purpose visual programming language enabling application development through graphical interfaces.</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-year">2006</div>
+            <div class="timeline-title">Arabic Programming Books</div>
+            <div class="timeline-desc">Authored and published free Arabic programming books to support education and programming literacy in the Arabic-speaking world.</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-year">2008</div>
+            <div class="timeline-title">PWCT Released as Open Source</div>
+            <div class="timeline-desc">Distributed PWCT as a free open-source project, making visual programming accessible to developers worldwide.</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-year">2009 – 2010</div>
+            <div class="timeline-title">Supernova Language</div>
+            <div class="timeline-desc">Created the Supernova programming language — a domain-specific language for GUI applications supporting both Arabic and English keywords simultaneously. Built using PWCT.</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-year">2013 – 2016</div>
+            <div class="timeline-title">Ring Language Development</div>
+            <div class="timeline-desc">Developed the Ring programming language using PWCT itself, generating over 24,000 lines of ANSI C code. First stable release (v1.0) on January 25, 2016.</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-year">2023 – 2025</div>
+            <div class="timeline-title">PWCT2 — Second Generation</div>
+            <div class="timeline-desc">Released PWCT2, a self-hosting visual programming language built with Ring featuring interactive textual-to-visual code conversion. First on Steam, then open-sourced in 2025.</div>
+        </div>
+    </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="projects-section">
+    <div class="reveal">
+        <div class="section-label">Projects</div>
+        <div class="section-title">Open source creations</div>
+        <p class="section-desc">A portfolio of programming languages and tools designed to make software development more accessible and productive.</p>
+    </div>
+    <div class="projects-grid">
+        <a href="https://pwct.github.io" target="_blank" class="project-card reveal" style="--card-accent: #d4a022;">
+            <div class="project-icon" style="background: linear-gradient(135deg, #d4a022, #a67d18); width: auto; padding: 0 14px; font-size: 0.85rem;">PWCT2</div>
+            <div class="project-card-title">Programming Without Coding Technology 2.0</div>
+            <div class="project-card-desc">
+                The second generation of PWCT — a self-hosting visual programming language built with Ring. Features interactive textual-to-visual code conversion and was released on Steam in 2023, later open-sourced in 2025.
+            </div>
+            <div class="project-tags">
+                <span class="tag" style="background: rgba(212,160,34,0.2); color: #f5c542;">Self-Hosting</span>
+                <span class="tag" style="background: rgba(212,160,34,0.2); color: #f5c542;">Built with Ring</span>
+                <span class="tag" style="background: rgba(212,160,34,0.2); color: #f5c542;">Import/Export Code</span>
+            </div>
+            <span class="project-link">pwct.github.io <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 13L13 3M13 3H6M13 3V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+
+        <a href="https://ring-lang.github.io" target="_blank" class="project-card reveal" style="--card-accent: #6b3bdb;">
+            <div class="project-icon" style="background: linear-gradient(135deg, #6b3bdb, #5028b0); width: auto; padding: 0 14px; font-size: 0.85rem;">Ring</div>
+            <div class="project-card-title">Ring Programming Language</div>
+            <div class="project-card-desc">
+                A dynamically-typed, multi-paradigm language supporting imperative, OOP, declarative, functional, meta-programming, and natural language paradigms. Compiles to bytecode executed by a lightweight VM written in under 25,000 lines of ANSI C.
+            </div>
+            <div class="project-tags">
+                <span class="tag">Multi-Paradigm</span>
+                <span class="tag">Lightweight</span>
+                <span class="tag">Batteries Included</span>
+            </div>
+            <span class="project-link">ring-lang.github.io <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 13L13 3M13 3H6M13 3V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+
+        <a href="https://supernova.sf.net" target="_blank" class="project-card reveal" style="--card-accent: #e8553d;">
+            <div class="project-icon" style="background: linear-gradient(135deg, #e8553d, #b83d28); width: auto; padding: 0 14px; font-size: 0.75rem;">Supernova</div>
+            <div class="project-card-title">Supernova Language</div>
+            <div class="project-card-desc">
+                A domain-specific programming language for GUI application development that uniquely supports writing source code using both Arabic and English keywords simultaneously. Built using PWCT and released in 2010.
+            </div>
+            <div class="project-tags">
+                <span class="tag" style="background: rgba(232,85,61,0.2); color: #ff8870;">Arabic/English</span>
+                <span class="tag" style="background: rgba(232,85,61,0.2); color: #ff8870;">DSL</span>
+                <span class="tag" style="background: rgba(232,85,61,0.2); color: #ff8870;">GUI Development</span>
+            </div>
+            <span class="project-link">supernova.sf.net <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 13L13 3M13 3H6M13 3V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+
+        <a href="https://doublesvsoop.sf.net" target="_blank" class="project-card reveal" style="--card-accent: #0ea583;">
+            <div class="project-icon" style="background: linear-gradient(135deg, #0ea583, #0a7d63); width: auto; padding: 0 14px; font-size: 0.85rem;">PWCT</div>
+            <div class="project-card-title">Programming Without Coding Technology</div>
+            <div class="project-card-desc">
+                A novel general-purpose visual programming language that allows developers to build applications through graphical interfaces without writing traditional textual code. First released in 2008.
+            </div>
+            <div class="project-tags">
+                <span class="tag" style="background: rgba(14,165,131,0.2); color: #40e8b8;">General Purpose</span>
+                <span class="tag" style="background: rgba(14,165,131,0.2); color: #40e8b8;">Visual Programming</span>
+                <span class="tag" style="background: rgba(14,165,131,0.2); color: #40e8b8;">Time Dimension</span>
+            </div>
+            <span class="project-link">doublesvsoop.sf.net <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 13L13 3M13 3H6M13 3V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+    </div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research" class="research-section">
+    <div class="reveal">
+        <div class="section-label">Research</div>
+        <div class="section-title">Selected publications</div>
+        <p class="section-desc">Peer-reviewed contributions to visual programming, language design, and machine learning.</p>
+    </div>
+    <div class="papers-list reveal">
+        <a href="https://www.mdpi.com/2079-9292/15/4/903" target="_blank" class="paper-item">
+            <div>
+                <div class="paper-title">Prompt-Driven Development with Claude Code: Developing a TUI Framework for the Ring Programming Language</div>
+                <div class="paper-meta">M. S. Fayed, A. S. Fayed &middot; Electronics (MDPI)</div>
+            </div>
+            <div class="paper-year">2026</div>
+        </a>
+        <a href="https://www.mdpi.com/2076-3417/15/3/1521" target="_blank" class="paper-item">
+            <div>
+                <div class="paper-title">PWCT2: A Self-Hosting Visual Programming Language Based on Ring with Interactive Textual-to-Visual Code Conversion</div>
+                <div class="paper-meta">M. S. Fayed, Y. A. Alohali &middot; Applied Sciences (MDPI)</div>
+            </div>
+            <div class="paper-year">2025</div>
+        </a>
+        <a href="https://www.mdpi.com/2079-9292/13/23/4627" target="_blank" class="paper-item">
+            <div>
+                <div class="paper-title">Ring: A Lightweight and Versatile Cross-Platform Dynamic Programming Language Developed Using Visual Programming</div>
+                <div class="paper-meta">M. S. Fayed, Y. A. Alohali &middot; Electronics (MDPI)</div>
+            </div>
+            <div class="paper-year">2024</div>
+        </a>
+        <a href="https://www.mdpi.com/2079-9292/12/12/2720" target="_blank" class="paper-item">
+            <div>
+                <div class="paper-title">Machine Learning and Cochlear Implantation: Predicting the Post-Operative Electrode Impedances</div>
+                <div class="paper-meta">Y. A. Alohali, M. S. Fayed, Y. Abdelsamad et al. &middot; Electronics (MDPI)</div>
+            </div>
+            <div class="paper-year">2023</div>
+        </a>
+        <a href="https://onlinelibrary.wiley.com/doi/10.1155/2022/2239152" target="_blank" class="paper-item">
+            <div>
+                <div class="paper-title">A Machine Learning Model to Predict Citation Counts of Scientific Papers in Otology Field</div>
+                <div class="paper-meta">Y. A. Alohali, M. S. Fayed, T. Mesallam et al. &middot; BioMed Research International</div>
+            </div>
+            <div class="paper-year">2022</div>
+        </a>
+        <a href="https://link.springer.com/article/10.1007/s42486-020-00038-y" target="_blank" class="paper-item">
+            <div>
+                <div class="paper-title">PWCT: A Novel General-Purpose Visual Programming Language in Support of Pervasive Application Development</div>
+                <div class="paper-meta">M. S. Fayed, M. Al-Qurishi, A. Alamri et al. &middot; CCF Transactions on Pervasive Computing and Interaction</div>
+            </div>
+            <div class="paper-year">2020</div>
+        </a>
+        <a href="https://dl.acm.org/doi/10.1145/3018896.3056782" target="_blank" class="paper-item">
+            <div>
+                <div class="paper-title">PWCT: Visual Language for IoT and Cloud Computing Applications and Systems</div>
+                <div class="paper-meta">M. S. Fayed, M. Al-Qurishi, A. Alamri, A. Al-Daraiseh &middot; Proceedings of ICC '17 (ACM)</div>
+            </div>
+            <div class="paper-year">2017</div>
+        </a>
+        <a href="https://journals.sagepub.com/doi/10.1155/2014/140973" target="_blank" class="paper-item">
+            <div>
+                <div class="paper-title">Formal Specification and Validation of a Localized Algorithm for Segregation of Critical/Noncritical Nodes in MAHSNs</div>
+                <div class="paper-meta">M. Alnuem, N. A. Zafar, M. Imran, S. Ullah, M. Fayed &middot; International Journal of Distributed Sensor Networks</div>
+            </div>
+            <div class="paper-year">2014</div>
+        </a>
+        <a href="https://www.sciencedirect.com/science/article/pii/S1877050913007746" target="_blank" class="paper-item">
+            <div>
+                <div class="paper-title">Localized Algorithm for Segregation of Critical/Non-Critical Nodes in Mobile Ad Hoc and Sensor Networks</div>
+                <div class="paper-meta">M. Imran, M. A. Alnuem, M. S. Fayed, A. Alamri &middot; Procedia Computer Science</div>
+            </div>
+            <div class="paper-year">2013</div>
+        </a>
+    </div>
+
+</section>
+
+<!-- CONNECT -->
+<section id="connect" class="connect-section">
+    <div class="reveal">
+        <div class="section-label">Connect</div>
+        <div class="section-title">Get in touch</div>
+        <p class="section-desc">Find me across the web.</p>
+    </div>
+    <div class="connect-grid reveal">
+        <a href="https://www.facebook.com/mahmoudfayed1986/" target="_blank" class="connect-card">
+            <div class="connect-icon" style="background: rgba(24, 119, 242, 0.15);">
+                <svg width="24" height="24" fill="#1877f2" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </div>
+            <div>
+                <div class="connect-card-title">Facebook</div>
+                <div class="connect-card-sub">Personal page</div>
+            </div>
+        </a>
+        <a href="https://sa.linkedin.com/in/mahmoudfayed1986" target="_blank" class="connect-card">
+            <div class="connect-icon" style="background: rgba(10, 102, 194, 0.15);">
+                <svg width="24" height="24" fill="#0a66c2" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </div>
+            <div>
+                <div class="connect-card-title">LinkedIn</div>
+                <div class="connect-card-sub">Professional profile</div>
+            </div>
+        </a>
+
+
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-text">&copy; 2026 Mahmoud Samir Fayed. All rights reserved.</div>
+        <div class="footer-quote">"Each problem is a new journey!"</div>
+    </div>
+</footer>
+
+<script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Close mobile nav on link click
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.remove('open');
+        });
+    });
+</script>
+
+</body>
+</html>
